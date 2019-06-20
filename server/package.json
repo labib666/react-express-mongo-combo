@@ -19,7 +19,6 @@
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
-    "eslint-config-google": "^0.13.0",
     "nodemon": "^1.19.1"
   }
 }

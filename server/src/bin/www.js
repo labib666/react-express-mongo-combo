@@ -5,6 +5,7 @@
  */
 
 import { createServer } from 'http';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import app from '../app';
 
@@ -90,10 +91,27 @@ function onListening() {
   debug(`Listening on ${bind}`);
 }
 
+function connect() {
+  const dbUrl = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+  mongoose.connect(`mongodb://${dbUrl}`, {
+    useNewUrlParser: true,
+  });
+  return mongoose.connection;
+}
+
 /**
  * Listen on provided port, on all network interfaces.
  */
+function listen() {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+/**
+ * Connect to database before starting server
+ */
+connect()
+  .on('error', console.log)
+  .on('disconnected', connect)
+  .once('open', listen);

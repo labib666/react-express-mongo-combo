@@ -16,7 +16,6 @@ const jwtConfig = {
 const strategy = new Strategy(strategyOptions, async (payload, done) => {
   try {
     const user = await User.findById(payload.id, { password: false }).exec();
-    console.log(user);
     if (!user) {
       return done(null, false);
     }

@@ -1,25 +1,20 @@
 #!/usr/bin/env node
 
 /**
+ * Parsed Env variables
+ */
+// eslint-disable-next-line import/order
+import {} from './dotenv';
+
+/**
  * Module dependencies.
  */
 
-import dotenv from 'dotenv';
-import {} from 'dotenv/config';
 import mongoose from 'mongoose';
 import debugModule from 'debug';
 import { createServer } from 'http';
 
 import app from '../app';
-
-/**
- * Parse Env variables
- */
-const dotenvParsed = dotenv.config({ silent: process.env.NODE_ENV === 'production' });
-if (dotenvParsed.error) {
-  console.error('.env file not found!');
-}
-console.log('Environment variables from .env:', JSON.stringify(dotenvParsed.parsed, null, 2));
 
 const debug = debugModule('server:server');
 
@@ -95,9 +90,8 @@ function onListening() {
 }
 
 function connect() {
-  const dbUrl = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-  console.log('Connecting to', dbUrl);
-  mongoose.connect(`mongodb://${dbUrl}`, {
+  console.log('Connecting to database at', process.env.DB_URI);
+  mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
   });
   return mongoose.connection;

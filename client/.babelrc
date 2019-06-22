@@ -1,9 +1,0 @@
-{
-  "plugins": [
-    ["babel-plugin-module-resolver", {
-      "alias": {
-        "@": "./src"
-      }
-    }]
-  ],
-}

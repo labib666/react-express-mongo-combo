@@ -1,0 +1,18 @@
+FROM coffeemate/nodejs
+
+# Create app directory
+WORKDIR /var/www/r-e-m-c
+
+# Install app dependencies
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN yarn install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
+COPY . .
+
+EXPOSE 8000
+CMD [ "yarn", "start" ]

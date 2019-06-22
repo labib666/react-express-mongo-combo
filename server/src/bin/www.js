@@ -4,21 +4,24 @@
  * Module dependencies.
  */
 
-import { createServer } from 'http';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import {} from 'dotenv/config';
+import mongoose from 'mongoose';
+import debugModule from 'debug';
+import { createServer } from 'http';
+
 import app from '../app';
 
 /**
  * Parse Env variables
  */
-const dotenvParsed = dotenv.config();
+const dotenvParsed = dotenv.config({ silent: process.env.NODE_ENV === 'production' });
 if (dotenvParsed.error) {
   console.error('.env file not found!');
 }
 console.log('Environment variables from .env:', JSON.stringify(dotenvParsed.parsed, null, 2));
 
-const debug = require('debug')('server:server');
+const debug = debugModule('server:server');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -93,6 +96,7 @@ function onListening() {
 
 function connect() {
   const dbUrl = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+  console.log('Connecting to', dbUrl);
   mongoose.connect(`mongodb://${dbUrl}`, {
     useNewUrlParser: true,
   });

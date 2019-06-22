@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { findById } from '../models/User';
+import User from '../models/User';
 
 const strategyOptions = {
   secretOrKey: process.env.JWT_SECRET,
@@ -13,16 +13,17 @@ const jwtConfig = {
   failWithError: true,
 };
 
-const strategy = new Strategy(strategyOptions, (payload, done) => {
-  findById(payload.id, { password: false }, (err, user) => {
-    if (err) {
-      return done(err, false);
-    }
+const strategy = new Strategy(strategyOptions, async (payload, done) => {
+  try {
+    const user = await User.findById(payload.id, { password: false }).exec();
+    console.log(user);
     if (!user) {
       return done(null, false);
     }
     return done(null, user);
-  });
+  } catch (err) {
+    return done(err, false);
+  }
 });
 passport.use(strategy);
 

@@ -1,9 +1,9 @@
 import express from 'express';
-import { getUser, getUserId } from '@/controllers/v1/user';
+import { getUser, logout } from '@/controllers/api/user';
 
 const router = express.Router();
 
 router.get('/', getUser);
-router.get('/id', getUserId);
+router.post('/logout', logout);
 
 export default router;

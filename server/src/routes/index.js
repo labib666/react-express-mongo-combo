@@ -8,7 +8,7 @@ router.get('/', (req, res) => res.status(200).json({
   message: 'Hello from the Server',
 }));
 
-router.use('/api', apiRouter);
-router.use('/public', publicRouter);
+router.use('/api/v1', apiRouter);
+router.use('/api/public', publicRouter);
 
 export default router;

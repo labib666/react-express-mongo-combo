@@ -11,5 +11,17 @@
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
+    },
+    "settings": {
+      "import/resolver": {
+        "babel-module": {
+          "alias": {
+            "map": [
+              ["@", "./src"]
+            ],
+            "extensions": [".ts", ".js", ".jsx", ".json"]
+          }
+        }
+      }
     }
 }
